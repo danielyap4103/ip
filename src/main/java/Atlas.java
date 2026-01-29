@@ -1,10 +1,10 @@
 import java.util.Scanner;
-import java.util.ArrayList;
+import java.util.List;
 
 public class Atlas {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        ArrayList<Task> tasks = new ArrayList<>();
+        List<Task> tasks = Storage.load();
 
         System.out.println("Hello! I'm Atlas");
         System.out.println("What can I do for you?");
@@ -27,6 +27,7 @@ public class Atlas {
                     }
                     int index = Integer.parseInt(input.substring(5)) - 1;
                     tasks.get(index).markDone();
+                    Storage.save(tasks);
                     System.out.println("Nice! I've marked this task as done:");
                     System.out.println("  " + tasks.get(index));
                 } else if (input.startsWith("unmark")) {
@@ -35,6 +36,7 @@ public class Atlas {
                     }
                     int index = Integer.parseInt(input.substring(7)) - 1;
                     tasks.get(index).unmark();
+                    Storage.save(tasks);
                     System.out.println("OK, I've marked this task as not done yet:");
                     System.out.println("  " + tasks.get(index));
                 } else if (input.startsWith("todo")) {
@@ -43,6 +45,7 @@ public class Atlas {
                     }
                     String taskName = input.substring(5);
                     tasks.add(new Todo(taskName));
+                    Storage.save(tasks);
                     System.out.println("Got it. I've added this task:");
                     System.out.println("  " + tasks.get(tasks.size() - 1));
                     System.out.println("Now you have " + tasks.size() + " tasks in the list.");
@@ -52,6 +55,7 @@ public class Atlas {
                         throw new AtlasException("Deadline must have a /by date.");
                     }
                     tasks.add(new Deadline(parts[0], parts[1]));
+                    Storage.save(tasks);
                     System.out.println("Got it. I've added this task:");
                     System.out.println("  " + tasks.get(tasks.size() - 1));
                     System.out.println("Now you have " + tasks.size() + " tasks in the list.");
@@ -61,6 +65,7 @@ public class Atlas {
                         throw new AtlasException("Event must have /from and /to.");
                     }
                     tasks.add(new Event(parts[0], parts[1], parts[2]));
+                    Storage.save(tasks);
                     System.out.println("Got it. I've added this task:");
                     System.out.println("  " + tasks.get(tasks.size() - 1));
                     System.out.println("Now you have " + tasks.size() + " tasks in the list.");
@@ -78,6 +83,7 @@ public class Atlas {
                     System.out.println("Noted. I've removed this task:");
                     System.out.println("  " + tasks.get(index));
                     tasks.remove(index);
+                    Storage.save(tasks);
                     System.out.println("Now you have " + tasks.size() + " tasks in the list.");
                 } else {
                     throw new AtlasException("No such command exists");
