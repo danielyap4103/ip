@@ -1,3 +1,5 @@
+package atlas.ui;
+
 import java.util.Scanner;
 
 public class Ui {
@@ -9,7 +11,7 @@ public class Ui {
     }
 
     public void showWelcome() {
-        System.out.println("Hello! I'm Atlas");
+        System.out.println("Hello! I'm atlas.Atlas");
         System.out.println("What can I do for you?");
     }
 
