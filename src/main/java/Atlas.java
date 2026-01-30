@@ -6,7 +6,8 @@ import java.time.LocalDate;
 public class Atlas {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        List<Task> tasks = Storage.load();
+        TaskList tasks = new TaskList(Storage.load());
+
 
         System.out.println("Hello! I'm Atlas");
         System.out.println("What can I do for you?");
@@ -29,7 +30,8 @@ public class Atlas {
                     }
                     int index = Integer.parseInt(input.substring(5)) - 1;
                     tasks.get(index).markDone();
-                    Storage.save(tasks);
+                    Storage.save(tasks.toList());
+
                     System.out.println("Nice! I've marked this task as done:");
                     System.out.println("  " + tasks.get(index));
                 } else if (input.startsWith("unmark")) {
@@ -38,7 +40,7 @@ public class Atlas {
                     }
                     int index = Integer.parseInt(input.substring(7)) - 1;
                     tasks.get(index).unmark();
-                    Storage.save(tasks);
+                    Storage.save(tasks.toList());
                     System.out.println("OK, I've marked this task as not done yet:");
                     System.out.println("  " + tasks.get(index));
                 } else if (input.startsWith("todo")) {
@@ -47,7 +49,7 @@ public class Atlas {
                     }
                     String taskName = input.substring(5);
                     tasks.add(new Todo(taskName));
-                    Storage.save(tasks);
+                    Storage.save(tasks.toList());
                     System.out.println("Got it. I've added this task:");
                     System.out.println("  " + tasks.get(tasks.size() - 1));
                     System.out.println("Now you have " + tasks.size() + " tasks in the list.");
@@ -58,7 +60,7 @@ public class Atlas {
                     }
                     LocalDate by = LocalDate.parse(parts[1]);
                     tasks.add(new Deadline(parts[0], by));
-                    Storage.save(tasks);
+                    Storage.save(tasks.toList());
                     System.out.println("Got it. I've added this task:");
                     System.out.println("  " + tasks.get(tasks.size() - 1));
                     System.out.println("Now you have " + tasks.size() + " tasks in the list.");
@@ -70,8 +72,7 @@ public class Atlas {
                     LocalDate from = LocalDate.parse(parts[1]);
                     LocalDate to = LocalDate.parse(parts[2]);
                     tasks.add(new Event(parts[0], from, to));
-
-                    Storage.save(tasks);
+                    Storage.save(tasks.toList());
                     System.out.println("Got it. I've added this task:");
                     System.out.println("  " + tasks.get(tasks.size() - 1));
                     System.out.println("Now you have " + tasks.size() + " tasks in the list.");
@@ -88,8 +89,9 @@ public class Atlas {
 
                     System.out.println("Noted. I've removed this task:");
                     System.out.println("  " + tasks.get(index));
-                    tasks.remove(index);
-                    Storage.save(tasks);
+                    tasks.delete(index);
+                    Storage.save(tasks.toList());
+
                     System.out.println("Now you have " + tasks.size() + " tasks in the list.");
                 } else {
                     throw new AtlasException("No such command exists");
