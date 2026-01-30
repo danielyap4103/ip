@@ -1,3 +1,10 @@
+package atlas.storage;
+
+import atlas.task.Deadline;
+import atlas.task.Event;
+import atlas.task.Task;
+import atlas.task.Todo;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,7 +19,7 @@ public class Storage {
     private static final String DATA_DIR = "data";
     private static final String FILE_PATH = "data/atlas.txt";
 
-    // Load tasks from storage to atlas
+    // Load tasks from atlas.storage to atlas
     public static List<Task> load() {
         ensureFileExists();
         List<Task> tasks = new ArrayList<>();
@@ -30,7 +37,7 @@ public class Storage {
         return tasks;
     }
 
-    // Save tasks from atlas to storage after any modificationgit
+    // Save tasks from atlas to atlas.storage after any modification
     public static void save(List<Task> tasks) {
         ensureFileExists();
         try {

@@ -1,4 +1,4 @@
-# Atlas User Guide
+# atlas.Atlas User Guide
 
 // Update the title above to match the actual product name
 
