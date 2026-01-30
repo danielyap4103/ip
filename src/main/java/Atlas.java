@@ -1,5 +1,7 @@
 import java.util.Scanner;
 import java.util.List;
+import java.time.LocalDate;
+
 
 public class Atlas {
     public static void main(String[] args) {
@@ -54,7 +56,8 @@ public class Atlas {
                     if (parts.length < 2) {
                         throw new AtlasException("Deadline must have a /by date.");
                     }
-                    tasks.add(new Deadline(parts[0], parts[1]));
+                    LocalDate by = LocalDate.parse(parts[1]);
+                    tasks.add(new Deadline(parts[0], by));
                     Storage.save(tasks);
                     System.out.println("Got it. I've added this task:");
                     System.out.println("  " + tasks.get(tasks.size() - 1));
@@ -64,7 +67,10 @@ public class Atlas {
                     if (parts.length < 3) {
                         throw new AtlasException("Event must have /from and /to.");
                     }
-                    tasks.add(new Event(parts[0], parts[1], parts[2]));
+                    LocalDate from = LocalDate.parse(parts[1]);
+                    LocalDate to = LocalDate.parse(parts[2]);
+                    tasks.add(new Event(parts[0], from, to));
+
                     Storage.save(tasks);
                     System.out.println("Got it. I've added this task:");
                     System.out.println("  " + tasks.get(tasks.size() - 1));

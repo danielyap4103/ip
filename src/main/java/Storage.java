@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDate;
 
 public class Storage {
 
@@ -29,7 +30,7 @@ public class Storage {
         return tasks;
     }
 
-    // Save tasks from atlas to storage after any modification
+    // Save tasks from atlas to storage after any modificationgit
     public static void save(List<Task> tasks) {
         ensureFileExists();
         try {
@@ -69,9 +70,11 @@ public class Storage {
         if (type.equals("T")) {
             task = new Todo(parts[2]);
         } else if (type.equals("D")) {
-            task = new Deadline(parts[2], parts[3]);
+            task = new Deadline(parts[2], LocalDate.parse(parts[3]));
         } else if (type.equals("E")) {
-            task = new Event(parts[2], parts[3], parts[4]);
+            task = new Event(parts[2],
+                    LocalDate.parse(parts[3]),
+                    LocalDate.parse(parts[4]));
         } else {
             throw new IllegalArgumentException("Corrupted data file");
         }
