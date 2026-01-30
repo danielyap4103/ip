@@ -7,7 +7,18 @@ import java.time.LocalDate;
 public class Parser {
 
     public static String getCommandWord(String input) {
-        return input.split(" ")[0];
+        if (input == null) {
+            return "";
+        }
+
+        input = input.trim();
+
+        if (input.isEmpty()) {
+            return "";
+        }
+
+        String[] parts = input.split("\\s+");
+        return parts[0];
     }
 
     public static int parseMarkIndex(String input) throws AtlasException {
