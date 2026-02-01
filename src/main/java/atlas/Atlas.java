@@ -9,16 +9,26 @@ import atlas.storage.Storage;
 import atlas.parser.Parser;
 import java.time.LocalDate;
 
+/**
+ * The main entry point of the Atlas task management application.
+ * Handles user interaction, command parsing, and task execution.
+ */
 public class Atlas {
 
     private Ui ui;
     private TaskList tasks;
 
+    /**
+     * Constructs an Atlas instance and loads tasks from storage.
+     */
     public Atlas() {
         ui = new Ui();
         tasks = new TaskList(Storage.load());
     }
 
+    /**
+     * Runs the main program loop, processing user commands until exit.
+     */
     public void run() {
         ui.showWelcome();
 
@@ -126,6 +136,11 @@ public class Atlas {
         }
     }
 
+    /**
+     * Launches the Atlas application.
+     *
+     * @param args Command-line arguments
+     */
     public static void main(String[] args) {
         new Atlas().run();
     }
