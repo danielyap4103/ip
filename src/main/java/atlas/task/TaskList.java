@@ -99,4 +99,14 @@ public class TaskList {
     public void unmark(int index) {
         tasks.get(index).unmark();
     }
+
+    public List<Task> findByKeyword(String keyword) {
+        List<Task> matches = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getTaskName().contains(keyword)) {
+                matches.add(task);
+            }
+        }
+        return matches;
+    }
 }

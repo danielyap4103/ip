@@ -4,11 +4,13 @@ import atlas.parser.Parser;
 import atlas.storage.Storage;
 import atlas.task.Deadline;
 import atlas.task.Event;
+import atlas.task.Task;
 import atlas.task.TaskList;
 import atlas.task.Todo;
 import atlas.ui.Ui;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * The main entry point of the Atlas task management application.
@@ -128,7 +130,7 @@ public class Atlas {
                         int index = Parser.parseDeleteIndex(input);
                         if (index < 0 || index >= tasks.size()) {
                             throw new AtlasException(
-                                    "task index is out of range."
+                                    "Task index is out of range."
                             );
                         }
 
@@ -141,6 +143,20 @@ public class Atlas {
                                 "Now you have " + tasks.size()
                                         + " tasks in the list."
                         );
+                        break;
+                    }
+
+                    case "find": {
+                        String keyword = Parser.parseFindKeyword(input);
+                        List<Task> matches = tasks.findByKeyword(keyword);
+
+                        ui.showLine("Here are the matching tasks in your list:");
+                        for (int i = 0; i < tasks.size(); i++) {
+                            Task task = tasks.get(i);
+                            if (matches.contains(task)) {
+                                ui.showLine((i + 1) + "." + task);
+                            }
+                        }
                         break;
                     }
 

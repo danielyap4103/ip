@@ -1,7 +1,6 @@
 package atlas.parser;
 
 import atlas.AtlasException;
-
 import java.time.LocalDate;
 
 /**
@@ -166,5 +165,23 @@ public class Parser {
                 LocalDate.parse(parts[1]),
                 LocalDate.parse(parts[2])
         };
+    }
+
+    /**
+     * Parses the keyword for find command.
+     *
+     * @param input User input
+     * @return Keyword to search for
+     * @throws AtlasException If keyword is missing
+     */
+    public static String parseFindKeyword(String input)
+            throws AtlasException {
+
+        if (input.length() <= 4) {
+            throw new AtlasException(
+                    "The keyword to find cannot be empty."
+            );
+        }
+        return input.substring(5);
     }
 }
