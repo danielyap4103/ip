@@ -14,12 +14,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
 
+/**
+ * Handles loading and saving tasks to persistent storage.
+ */
 public class Storage {
 
     private static final String DATA_DIR = "data";
     private static final String FILE_PATH = "data/atlas.txt";
 
-    // Load tasks from atlas.storage to atlas
+    /**
+     * Loads tasks from storage.
+     *
+     * @return List of loaded tasks
+     */
     public static List<Task> load() {
         ensureFileExists();
         List<Task> tasks = new ArrayList<>();
@@ -31,13 +38,17 @@ public class Storage {
             }
             scanner.close();
         } catch (FileNotFoundException e) {
-            // first run file does not exist yet
+            // First run: file does not exist
         }
 
         return tasks;
     }
 
-    // Save tasks from atlas to atlas.storage after any modification
+    /**
+     * Saves tasks to storage.
+     *
+     * @param tasks List of tasks to save
+     */
     public static void save(List<Task> tasks) {
         ensureFileExists();
         try {
@@ -52,6 +63,9 @@ public class Storage {
         }
     }
 
+    /**
+     * Ensures the data directory and file exist.
+     */
     private static void ensureFileExists() {
         File dir = new File(DATA_DIR);
         if (!dir.exists()) {
@@ -68,6 +82,12 @@ public class Storage {
         }
     }
 
+    /**
+     * Parses a task from a line in the data file.
+     *
+     * @param line Raw file line
+     * @return Parsed task
+     */
     private static Task parseTask(String line) {
         String[] parts = line.split(" \\| ");
         String type = parts[0];
