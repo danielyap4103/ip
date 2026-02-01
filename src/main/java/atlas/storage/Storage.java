@@ -6,20 +6,19 @@ import atlas.task.Task;
 import atlas.task.Todo;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.time.LocalDate;
+import java.util.Scanner;
 
 public class Storage {
 
     private static final String DATA_DIR = "data";
     private static final String FILE_PATH = "data/atlas.txt";
 
-    // Load tasks from atlas.storage to atlas
     public static List<Task> load() {
         ensureFileExists();
         List<Task> tasks = new ArrayList<>();
@@ -31,13 +30,12 @@ public class Storage {
             }
             scanner.close();
         } catch (FileNotFoundException e) {
-            // first run file does not exist yet
+            // ignore
         }
 
         return tasks;
     }
 
-    // Save tasks from atlas to atlas.storage after any modification
     public static void save(List<Task> tasks) {
         ensureFileExists();
         try {
@@ -79,9 +77,11 @@ public class Storage {
         } else if (type.equals("D")) {
             task = new Deadline(parts[2], LocalDate.parse(parts[3]));
         } else if (type.equals("E")) {
-            task = new Event(parts[2],
+            task = new Event(
+                    parts[2],
                     LocalDate.parse(parts[3]),
-                    LocalDate.parse(parts[4]));
+                    LocalDate.parse(parts[4])
+            );
         } else {
             throw new IllegalArgumentException("Corrupted data file");
         }
