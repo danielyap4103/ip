@@ -37,16 +37,20 @@ public class Parser {
      * @return Task index
      * @throws AtlasException If index is invalid
      */
-    public static int parseMarkIndex(String input) throws AtlasException {
+    public static int parseMarkIndex(String input)
+            throws AtlasException {
+
         String[] parts = input.split(" ");
         if (parts.length < 2) {
-            throw new AtlasException("mark has to be used with the atlas.task index following it");
+            throw new AtlasException(
+                    "mark has to be used with the task index"
+            );
         }
 
         try {
             return Integer.parseInt(parts[1]) - 1;
         } catch (NumberFormatException e) {
-            throw new AtlasException("Invalid atlas.task index.");
+            throw new AtlasException("Invalid task index.");
         }
     }
 
@@ -57,16 +61,20 @@ public class Parser {
      * @return Task index
      * @throws AtlasException If index is invalid
      */
-    public static int parseUnmarkIndex(String input) throws AtlasException {
+    public static int parseUnmarkIndex(String input)
+            throws AtlasException {
+
         String[] parts = input.split(" ");
         if (parts.length < 2) {
-            throw new AtlasException("unmark has to be used with the atlas.task index following it");
+            throw new AtlasException(
+                    "unmark has to be used with the task index"
+            );
         }
 
         try {
             return Integer.parseInt(parts[1]) - 1;
         } catch (NumberFormatException e) {
-            throw new AtlasException("Invalid atlas.task index.");
+            throw new AtlasException("Invalid task index.");
         }
     }
 
@@ -77,16 +85,20 @@ public class Parser {
      * @return Task index
      * @throws AtlasException If index is invalid
      */
-    public static int parseDeleteIndex(String input) throws AtlasException {
+    public static int parseDeleteIndex(String input)
+            throws AtlasException {
+
         String[] parts = input.split(" ");
         if (parts.length < 2) {
-            throw new AtlasException("delete has to be used with the atlas.task index following it");
+            throw new AtlasException(
+                    "delete has to be used with the task index"
+            );
         }
 
         try {
             return Integer.parseInt(parts[1]) - 1;
         } catch (NumberFormatException e) {
-            throw new AtlasException("Invalid atlas.task index.");
+            throw new AtlasException("Invalid task index.");
         }
     }
 
@@ -97,9 +109,13 @@ public class Parser {
      * @return Todo description
      * @throws AtlasException If description is missing
      */
-    public static String parseTodo(String input) throws AtlasException {
+    public static String parseTodo(String input)
+            throws AtlasException {
+
         if (input.length() <= 4) {
-            throw new AtlasException("The description of a todo cannot be empty.");
+            throw new AtlasException(
+                    "The description of a todo cannot be empty."
+            );
         }
         return input.substring(5);
     }
@@ -111,10 +127,14 @@ public class Parser {
      * @return Parsed description and date
      * @throws AtlasException If format is invalid
      */
-    public static Object[] parseDeadline(String input) throws AtlasException {
+    public static Object[] parseDeadline(String input)
+            throws AtlasException {
+
         String[] parts = input.substring(9).split(" /by ");
         if (parts.length < 2) {
-            throw new AtlasException("atlas.task.Deadline must have a /by date.");
+            throw new AtlasException(
+                    "Deadline must have a /by date."
+            );
         }
 
         return new Object[] {
@@ -130,10 +150,15 @@ public class Parser {
      * @return Parsed description, start date, and end date
      * @throws AtlasException If format is invalid
      */
-    public static Object[] parseEvent(String input) throws AtlasException {
-        String[] parts = input.substring(6).split(" /from | /to ");
+    public static Object[] parseEvent(String input)
+            throws AtlasException {
+
+        String[] parts =
+                input.substring(6).split(" /from | /to ");
         if (parts.length < 3) {
-            throw new AtlasException("atlas.task.Event must have /from and /to.");
+            throw new AtlasException(
+                    "Event must have /from and /to."
+            );
         }
 
         return new Object[] {

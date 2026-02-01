@@ -1,12 +1,13 @@
 package atlas;
 
-import atlas.ui.Ui;
-import atlas.task.TaskList;
-import atlas.task.Todo;
+import atlas.parser.Parser;
+import atlas.storage.Storage;
 import atlas.task.Deadline;
 import atlas.task.Event;
-import atlas.storage.Storage;
-import atlas.parser.Parser;
+import atlas.task.TaskList;
+import atlas.task.Todo;
+import atlas.ui.Ui;
+
 import java.time.LocalDate;
 
 /**
@@ -38,7 +39,6 @@ public class Atlas {
                 String command = Parser.getCommandWord(input);
 
                 switch (command) {
-
                     case "bye":
                         ui.showGoodbye();
                         ui.close();
@@ -56,7 +56,7 @@ public class Atlas {
                         tasks.mark(index);
                         Storage.save(tasks.toList());
 
-                        ui.showLine("Nice! I've marked this atlas.task as done:");
+                        ui.showLine("Nice! I've marked this task as done:");
                         ui.showLine("  " + tasks.get(index));
                         break;
                     }
@@ -66,7 +66,7 @@ public class Atlas {
                         tasks.unmark(index);
                         Storage.save(tasks.toList());
 
-                        ui.showLine("OK, I've marked this atlas.task as not done yet:");
+                        ui.showLine("OK, I've marked this task as not done yet:");
                         ui.showLine("  " + tasks.get(index));
                         break;
                     }
@@ -76,53 +76,71 @@ public class Atlas {
                         tasks.add(new Todo(taskName));
                         Storage.save(tasks.toList());
 
-                        ui.showLine("Got it. I've added this atlas.task:");
+                        ui.showLine("Got it. I've added this task:");
                         ui.showLine("  " + tasks.get(tasks.size() - 1));
-                        ui.showLine("Now you have " + tasks.size() + " tasks in the list.");
+                        ui.showLine(
+                                "Now you have " + tasks.size()
+                                        + " tasks in the list."
+                        );
                         break;
                     }
 
                     case "deadline": {
                         Object[] parsed = Parser.parseDeadline(input);
-                        tasks.add(new Deadline(
-                                (String) parsed[0],
-                                (LocalDate) parsed[1]
-                        ));
+                        tasks.add(
+                                new Deadline(
+                                        (String) parsed[0],
+                                        (LocalDate) parsed[1]
+                                )
+                        );
                         Storage.save(tasks.toList());
 
-                        ui.showLine("Got it. I've added this atlas.task:");
+                        ui.showLine("Got it. I've added this task:");
                         ui.showLine("  " + tasks.get(tasks.size() - 1));
-                        ui.showLine("Now you have " + tasks.size() + " tasks in the list.");
+                        ui.showLine(
+                                "Now you have " + tasks.size()
+                                        + " tasks in the list."
+                        );
                         break;
                     }
 
                     case "event": {
                         Object[] parsed = Parser.parseEvent(input);
-                        tasks.add(new Event(
-                                (String) parsed[0],
-                                (LocalDate) parsed[1],
-                                (LocalDate) parsed[2]
-                        ));
+                        tasks.add(
+                                new Event(
+                                        (String) parsed[0],
+                                        (LocalDate) parsed[1],
+                                        (LocalDate) parsed[2]
+                                )
+                        );
                         Storage.save(tasks.toList());
 
-                        ui.showLine("Got it. I've added this atlas.task:");
+                        ui.showLine("Got it. I've added this task:");
                         ui.showLine("  " + tasks.get(tasks.size() - 1));
-                        ui.showLine("Now you have " + tasks.size() + " tasks in the list.");
+                        ui.showLine(
+                                "Now you have " + tasks.size()
+                                        + " tasks in the list."
+                        );
                         break;
                     }
 
                     case "delete": {
                         int index = Parser.parseDeleteIndex(input);
                         if (index < 0 || index >= tasks.size()) {
-                            throw new AtlasException("atlas.task.Task index is out of range.");
+                            throw new AtlasException(
+                                    "task index is out of range."
+                            );
                         }
 
-                        ui.showLine("Noted. I've removed this atlas.task:");
+                        ui.showLine("Noted. I've removed this task:");
                         ui.showLine("  " + tasks.get(index));
                         tasks.delete(index);
                         Storage.save(tasks.toList());
 
-                        ui.showLine("Now you have " + tasks.size() + " tasks in the list.");
+                        ui.showLine(
+                                "Now you have " + tasks.size()
+                                        + " tasks in the list."
+                        );
                         break;
                     }
 

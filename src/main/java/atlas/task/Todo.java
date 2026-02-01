@@ -16,7 +16,8 @@ public class Todo extends Task {
 
     @Override
     public String toFileString() {
-        return "T | " + (isDone() ? "1" : "0") + " | " + getTaskName();
+        return "T | " + (isDone() ? "1" : "0")
+                + " | " + getTaskName();
     }
 
     @Override

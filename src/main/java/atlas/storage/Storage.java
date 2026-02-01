@@ -6,13 +6,13 @@ import atlas.task.Task;
 import atlas.task.Todo;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.time.LocalDate;
+import java.util.Scanner;
 
 /**
  * Handles loading and saving tasks to persistent storage.
@@ -99,9 +99,11 @@ public class Storage {
         } else if (type.equals("D")) {
             task = new Deadline(parts[2], LocalDate.parse(parts[3]));
         } else if (type.equals("E")) {
-            task = new Event(parts[2],
+            task = new Event(
+                    parts[2],
                     LocalDate.parse(parts[3]),
-                    LocalDate.parse(parts[4]));
+                    LocalDate.parse(parts[4])
+            );
         } else {
             throw new IllegalArgumentException("Corrupted data file");
         }
