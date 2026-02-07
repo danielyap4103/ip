@@ -1,1 +1,5 @@
 D | 1 | test | 2025-10-15
+T | 1 | market
+T | 0 | eat booger
+T | 0 | eat
+T | 0 | m
