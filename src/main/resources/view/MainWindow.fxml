@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="atlas.gui.MainWindow"
+      spacing="10"
+      prefWidth="400"
+      prefHeight="600">
+
+    <ScrollPane fx:id="scrollPane" fitToWidth="true">
+        <VBox fx:id="dialogContainer" spacing="10"/>
+    </ScrollPane>
+
+    <HBox spacing="10">
+        <TextField fx:id="userInput" HBox.hgrow="ALWAYS"/>
+        <Button text="Send" onAction="#handleUserInput"/>
+    </HBox>
+
+</VBox>

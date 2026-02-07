@@ -1,37 +1,33 @@
 package atlas.ui;
 
-import java.util.Scanner;
-
 public class Ui {
 
-    private final Scanner scanner;
+    private StringBuilder output;
 
     public Ui() {
-        scanner = new Scanner(System.in);
+        output = new StringBuilder();
     }
 
     public void showWelcome() {
-        System.out.println("Hello! I'm atlas.Atlas");
-        System.out.println("What can I do for you?");
+        output.append("Hello! I'm Atlas\n");
+        output.append("What can I do for you?\n");
     }
 
     public void showGoodbye() {
-        System.out.println("Bye. Hope to see you again soon!");
+        output.append("Bye. Hope to see you again soon!\n");
     }
 
     public void showError(String message) {
-        System.out.println("OOPS!!! " + message);
-    }
-
-    public String readCommand() {
-        return scanner.nextLine();
+        output.append("OOPS!!! ").append(message).append("\n");
     }
 
     public void showLine(String message) {
-        System.out.println(message);
+        output.append(message).append("\n");
     }
 
-    public void close() {
-        scanner.close();
+    public String getOutput() {
+        String result = output.toString();
+        output.setLength(0);
+        return result;
     }
 }

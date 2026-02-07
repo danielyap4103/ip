@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="atlas.gui.DialogBox"
+      spacing="10"
+      alignment="TOP_LEFT">
+
+    <ImageView fx:id="displayPicture"
+               fitWidth="80"
+               fitHeight="80"
+               preserveRatio="true"/>
+
+    <Label fx:id="dialog" wrapText="true"/>
+</HBox>
