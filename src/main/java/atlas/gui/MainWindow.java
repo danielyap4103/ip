@@ -1,5 +1,6 @@
 package atlas.gui;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -40,5 +41,9 @@ public class MainWindow {
                 DialogBox.getAtlasDialog(response));
 
         userInput.clear();
+
+        if (input.trim().equals("bye")) {
+            Platform.exit();
+        }
     }
 }
