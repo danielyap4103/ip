@@ -45,8 +45,14 @@ public class Atlas {
 
                 case "mark": {
                     int index = Parser.parseMarkIndex(input);
+
+                    if (index < 0 || index >= tasks.size()) {
+                        throw new AtlasException("Task index is out of range.");
+                    }
+
                     tasks.mark(index);
                     Storage.save(tasks.toList());
+
                     ui.showLine("Nice! I've marked this task as done:");
                     ui.showLine("  " + tasks.get(index));
                     return ui.getOutput();
@@ -54,8 +60,14 @@ public class Atlas {
 
                 case "unmark": {
                     int index = Parser.parseUnmarkIndex(input);
+
+                    if (index < 0 || index >= tasks.size()) {
+                        throw new AtlasException("Task index is out of range.");
+                    }
+
                     tasks.unmark(index);
                     Storage.save(tasks.toList());
+
                     ui.showLine("OK, I've marked this task as not done yet:");
                     ui.showLine("  " + tasks.get(index));
                     return ui.getOutput();
@@ -97,13 +109,20 @@ public class Atlas {
 
                 case "delete": {
                     int index = Parser.parseDeleteIndex(input);
-                    ui.showLine("Noted. I've removed this task:");
-                    ui.showLine("  " + tasks.get(index));
-                    tasks.delete(index);
+
+                    if (index < 0 || index >= tasks.size()) {
+                        throw new AtlasException("Task index is out of range.");
+                    }
+
+                    Task removed = tasks.delete(index);
                     Storage.save(tasks.toList());
+
+                    ui.showLine("Noted. I've removed this task:");
+                    ui.showLine("  " + removed);
                     ui.showLine("Now you have " + tasks.size() + " tasks in the list.");
                     return ui.getOutput();
                 }
+
 
                 case "find": {
                     String keyword = Parser.parseFindKeyword(input);

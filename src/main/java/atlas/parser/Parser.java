@@ -40,6 +40,8 @@ public class Parser {
             throws AtlasException {
 
         String[] parts = input.split(" ");
+        assert parts.length >= 2
+                : "Mark command missing index";
         if (parts.length < 2) {
             throw new AtlasException(
                     "mark has to be used with the task index"
@@ -64,6 +66,8 @@ public class Parser {
             throws AtlasException {
 
         String[] parts = input.split(" ");
+        assert parts.length >= 2
+                : "Unmark command missing index";
         if (parts.length < 2) {
             throw new AtlasException(
                     "unmark has to be used with the task index"
@@ -88,6 +92,8 @@ public class Parser {
             throws AtlasException {
 
         String[] parts = input.split(" ");
+        assert parts.length >= 2
+                : "Delete command missing index";
         if (parts.length < 2) {
             throw new AtlasException(
                     "delete has to be used with the task index"
@@ -130,6 +136,8 @@ public class Parser {
             throws AtlasException {
 
         String[] parts = input.substring(9).split(" /by ");
+        assert parts.length >= 2
+                : "Deadline command missing /by";
         if (parts.length < 2) {
             throw new AtlasException(
                     "Deadline must have a /by date."
@@ -152,8 +160,9 @@ public class Parser {
     public static Object[] parseEvent(String input)
             throws AtlasException {
 
-        String[] parts =
-                input.substring(6).split(" /from | /to ");
+        String[] parts = input.substring(6).split(" /from | /to ");
+        assert parts.length >= 3
+                : "Event command missing /from or /to";
         if (parts.length < 3) {
             throw new AtlasException(
                     "Event must have /from and /to."
