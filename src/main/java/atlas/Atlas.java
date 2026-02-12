@@ -33,109 +33,31 @@ public class Atlas {
 
             switch (command) {
                 case "bye":
-                    ui.showGoodbye();
-                    return ui.getOutput();
+                    return handleBye();
 
                 case "list":
-                    ui.showLine("Here are the tasks in your list:");
-                    for (int i = 0; i < tasks.size(); i++) {
-                        ui.showLine((i + 1) + "." + tasks.get(i));
-                    }
-                    return ui.getOutput();
+                    return handleList();
 
-                case "mark": {
-                    int index = Parser.parseMarkIndex(input);
+                case "mark":
+                    return handleMark(input);
 
-                    if (index < 0 || index >= tasks.size()) {
-                        throw new AtlasException("Task index is out of range.");
-                    }
+                case "unmark":
+                    return handleUnmark(input);
 
-                    tasks.mark(index);
-                    Storage.save(tasks.toList());
+                case "todo":
+                    return handleTodo(input);
 
-                    ui.showLine("Nice! I've marked this task as done:");
-                    ui.showLine("  " + tasks.get(index));
-                    return ui.getOutput();
-                }
+                case "deadline":
+                    return handleDeadline(input);
 
-                case "unmark": {
-                    int index = Parser.parseUnmarkIndex(input);
+                case "event":
+                    return handleEvent(input);
 
-                    if (index < 0 || index >= tasks.size()) {
-                        throw new AtlasException("Task index is out of range.");
-                    }
+                case "delete":
+                    return handleDelete(input);
 
-                    tasks.unmark(index);
-                    Storage.save(tasks.toList());
-
-                    ui.showLine("OK, I've marked this task as not done yet:");
-                    ui.showLine("  " + tasks.get(index));
-                    return ui.getOutput();
-                }
-
-                case "todo": {
-                    String taskName = Parser.parseTodo(input);
-                    tasks.add(new Todo(taskName));
-                    Storage.save(tasks.toList());
-                    ui.showLine("Got it. I've added this task:");
-                    ui.showLine("  " + tasks.get(tasks.size() - 1));
-                    ui.showLine("Now you have " + tasks.size() + " tasks in the list.");
-                    return ui.getOutput();
-                }
-
-                case "deadline": {
-                    Object[] parsed = Parser.parseDeadline(input);
-                    tasks.add(new Deadline((String) parsed[0], (LocalDate) parsed[1]));
-                    Storage.save(tasks.toList());
-                    ui.showLine("Got it. I've added this task:");
-                    ui.showLine("  " + tasks.get(tasks.size() - 1));
-                    ui.showLine("Now you have " + tasks.size() + " tasks in the list.");
-                    return ui.getOutput();
-                }
-
-                case "event": {
-                    Object[] parsed = Parser.parseEvent(input);
-                    tasks.add(new Event(
-                            (String) parsed[0],
-                            (LocalDate) parsed[1],
-                            (LocalDate) parsed[2]
-                    ));
-                    Storage.save(tasks.toList());
-                    ui.showLine("Got it. I've added this task:");
-                    ui.showLine("  " + tasks.get(tasks.size() - 1));
-                    ui.showLine("Now you have " + tasks.size() + " tasks in the list.");
-                    return ui.getOutput();
-                }
-
-                case "delete": {
-                    int index = Parser.parseDeleteIndex(input);
-
-                    if (index < 0 || index >= tasks.size()) {
-                        throw new AtlasException("Task index is out of range.");
-                    }
-
-                    Task removed = tasks.delete(index);
-                    Storage.save(tasks.toList());
-
-                    ui.showLine("Noted. I've removed this task:");
-                    ui.showLine("  " + removed);
-                    ui.showLine("Now you have " + tasks.size() + " tasks in the list.");
-                    return ui.getOutput();
-                }
-
-
-                case "find": {
-                    String keyword = Parser.parseFindKeyword(input);
-                    List<Task> matches = tasks.findByKeyword(keyword);
-                    ui.showLine("Here are the matching tasks in your list:");
-                    for (int i = 0; i < tasks.size(); i++) {
-                        Task task = tasks.get(i);
-                        if (matches.contains(task)) {
-                            ui.showLine((i + 1) + "." + task);
-                        }
-                    }
-                    return ui.getOutput();
-                }
+                case "find":
+                    return handleFind(input);
 
                 default:
                     throw new AtlasException("No such command exists");
@@ -145,5 +67,112 @@ public class Atlas {
             ui.showError(e.getMessage());
             return ui.getOutput();
         }
+    }
+
+    private String handleBye() {
+        ui.showGoodbye();
+        return ui.getOutput();
+    }
+
+    private String handleList() {
+        ui.showLine("Here are the tasks in your list:");
+        for (int i = 0; i < tasks.size(); i++) {
+            ui.showLine((i + 1) + "." + tasks.get(i));
+        }
+        return ui.getOutput();
+    }
+
+    private String handleMark(String input) throws AtlasException {
+        int index = Parser.parseMarkIndex(input);
+        validateIndex(index);
+
+        tasks.mark(index);
+        Storage.save(tasks.toList());
+
+        ui.showLine("Nice! I've marked this task as done:");
+        ui.showLine("  " + tasks.get(index));
+        return ui.getOutput();
+    }
+
+    private String handleUnmark(String input) throws AtlasException {
+        int index = Parser.parseUnmarkIndex(input);
+        validateIndex(index);
+
+        tasks.unmark(index);
+        Storage.save(tasks.toList());
+
+        ui.showLine("OK, I've marked this task as not done yet:");
+        ui.showLine("  " + tasks.get(index));
+        return ui.getOutput();
+    }
+
+    private String handleTodo(String input) throws AtlasException {
+        String taskName = Parser.parseTodo(input);
+        tasks.add(new Todo(taskName));
+        Storage.save(tasks.toList());
+
+        showTaskAdded();
+        return ui.getOutput();
+    }
+
+    private String handleDeadline(String input) throws AtlasException {
+        Object[] parsed = Parser.parseDeadline(input);
+        tasks.add(new Deadline((String) parsed[0], (LocalDate) parsed[1]));
+        Storage.save(tasks.toList());
+
+        showTaskAdded();
+        return ui.getOutput();
+    }
+
+    private String handleEvent(String input) throws AtlasException {
+        Object[] parsed = Parser.parseEvent(input);
+        tasks.add(new Event(
+                (String) parsed[0],
+                (LocalDate) parsed[1],
+                (LocalDate) parsed[2]
+        ));
+        Storage.save(tasks.toList());
+
+        showTaskAdded();
+        return ui.getOutput();
+    }
+
+    private String handleDelete(String input) throws AtlasException {
+        int index = Parser.parseDeleteIndex(input);
+        validateIndex(index);
+
+        Task removed = tasks.delete(index);
+        Storage.save(tasks.toList());
+
+        ui.showLine("Noted. I've removed this task:");
+        ui.showLine("  " + removed);
+        ui.showLine("Now you have " + tasks.size() + " tasks in the list.");
+        return ui.getOutput();
+    }
+
+    private String handleFind(String input) throws AtlasException {
+        String keyword = Parser.parseFindKeyword(input);
+        List<Task> matches = tasks.findByKeyword(keyword);
+
+        ui.showLine("Here are the matching tasks in your list:");
+        for (int i = 0; i < tasks.size(); i++) {
+            Task task = tasks.get(i);
+            if (matches.contains(task)) {
+                ui.showLine((i + 1) + "." + task);
+            }
+        }
+        return ui.getOutput();
+    }
+
+    private void validateIndex(int index) throws AtlasException {
+        if (index < 0 || index >= tasks.size()) {
+            throw new AtlasException("Task index is out of range.");
+        }
+    }
+
+    private void showTaskAdded() {
+        ui.showLine("Got it. I've added this task:");
+        ui.showLine("  " + tasks.get(tasks.size() - 1));
+        ui.showLine("Now you have " + tasks.size() + " tasks in the list.");
     }
 }
