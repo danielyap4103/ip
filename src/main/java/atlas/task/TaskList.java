@@ -51,6 +51,8 @@ public class TaskList {
      * @return Removed task
      */
     public Task delete(int index) {
+        assert index >= 0 && index < tasks.size()
+                : "Index out of bounds in TaskList.delete()";
         return tasks.remove(index);
     }
 
@@ -61,8 +63,11 @@ public class TaskList {
      * @return Task
      */
     public Task get(int index) {
+        assert index >= 0 && index < tasks.size()
+                : "Index out of bounds in TaskList.get()";
         return tasks.get(index);
     }
+
 
     /**
      * Returns the number of tasks.
@@ -88,6 +93,8 @@ public class TaskList {
      * @param index Index of task
      */
     public void mark(int index) {
+        assert index >= 0 && index < tasks.size()
+                : "Index out of bounds in TaskList.mark()";
         tasks.get(index).markDone();
     }
 
@@ -97,6 +104,8 @@ public class TaskList {
      * @param index Index of task
      */
     public void unmark(int index) {
+        assert index >= 0 && index < tasks.size()
+                : "Index out of bounds in TaskList.unmark()";
         tasks.get(index).unmark();
     }
 

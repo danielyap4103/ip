@@ -32,35 +32,35 @@ public class Atlas {
             String command = Parser.getCommandWord(input);
 
             switch (command) {
-            case "bye":
-                return handleBye();
+                case "bye":
+                    return handleBye();
 
-            case "list":
-                return handleList();
+                case "list":
+                    return handleList();
 
-            case "mark":
-                return handleMark(input);
+                case "mark":
+                    return handleMark(input);
 
-            case "unmark":
-                return handleUnmark(input);
+                case "unmark":
+                    return handleUnmark(input);
 
-            case "todo":
-                return handleTodo(input);
+                case "todo":
+                    return handleTodo(input);
 
-            case "deadline":
-                return handleDeadline(input);
+                case "deadline":
+                    return handleDeadline(input);
 
-            case "event":
-                return handleEvent(input);
+                case "event":
+                    return handleEvent(input);
 
-            case "delete":
-                return handleDelete(input);
+                case "delete":
+                    return handleDelete(input);
 
-            case "find":
-                return handleFind(input);
+                case "find":
+                    return handleFind(input);
 
-            default:
-                throw new AtlasException("No such command exists");
+                default:
+                    throw new AtlasException("No such command exists");
             }
 
         } catch (AtlasException e) {

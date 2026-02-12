@@ -90,6 +90,8 @@ public class Storage {
      */
     private static Task parseTask(String line) {
         String[] parts = line.split(" \\| ");
+        assert parts.length >= 3
+                : "Invalid storage format: insufficient parts";
         String type = parts[0];
         boolean isDone = parts[1].equals("1");
 
