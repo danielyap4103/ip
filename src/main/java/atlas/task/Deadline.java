@@ -30,6 +30,12 @@ public class Deadline extends Task {
         return by;
     }
 
+    public void setBy(LocalDate by) {
+        assert by != null : "Deadline date cannot be null";
+        this.by = by;
+    }
+
+
     @Override
     public String toFileString() {
         return "D | " + (isDone() ? "1" : "0")

@@ -60,6 +60,11 @@ public abstract class Task {
         return isDone ? "X" : " ";
     }
 
+    public void setTaskName(String taskName) {
+        assert taskName != null && !taskName.isBlank() : "Task name cannot be empty";
+        this.taskName = taskName;
+    }
+
     /**
      * Converts the task into a string format suitable for file storage.
      *

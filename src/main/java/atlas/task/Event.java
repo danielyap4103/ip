@@ -42,6 +42,16 @@ public class Event extends Task {
         return to;
     }
 
+    public void setFrom(LocalDate from) {
+        assert from != null : "Event start cannot be null";
+        this.from = from;
+    }
+
+    public void setTo(LocalDate to) {
+        assert to != null : "Event end cannot be null";
+        this.to = to;
+    }
+
     @Override
     public String toFileString() {
         return "E | " + (isDone() ? "1" : "0")

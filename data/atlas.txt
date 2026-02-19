@@ -1,1 +1,4 @@
-T | 0 | mark
+T | 0 | gone
+T | 0 | read clean code
+D | 0 | submit | 2026-04-01
+E | 0 | trip | 2026-03-15 | 2026-03-18

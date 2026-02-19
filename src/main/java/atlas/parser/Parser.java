@@ -176,6 +176,18 @@ public class Parser {
         };
     }
 
+    public static Object[] parseUpdate(String input) throws AtlasException {
+        String[] parts = input.split(" ", 3);
+        if (parts.length < 3) {
+            throw new AtlasException("Usage: update INDEX /desc NEW_TEXT");
+        }
+
+        int index = Integer.parseInt(parts[1]) - 1;
+        String remainder = parts[2];
+
+        return new Object[]{index, remainder};
+    }
+
     /**
      * Parses the keyword for find command.
      *

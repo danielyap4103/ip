@@ -32,35 +32,39 @@ public class Atlas {
             String command = Parser.getCommandWord(input);
 
             switch (command) {
-                case "bye":
-                    return handleBye();
+            case "bye":
+                return handleBye();
 
-                case "list":
-                    return handleList();
+            case "list":
+                return handleList();
 
-                case "mark":
-                    return handleMark(input);
+            case "mark":
+                return handleMark(input);
 
-                case "unmark":
-                    return handleUnmark(input);
+            case "unmark":
+                return handleUnmark(input);
 
-                case "todo":
-                    return handleTodo(input);
+            case "todo":
+                return handleTodo(input);
 
-                case "deadline":
-                    return handleDeadline(input);
+            case "deadline":
+                return handleDeadline(input);
 
-                case "event":
-                    return handleEvent(input);
+            case "event":
+                return handleEvent(input);
 
-                case "delete":
-                    return handleDelete(input);
+            case "delete":
+                return handleDelete(input);
 
-                case "find":
-                    return handleFind(input);
+            case "find":
+                return handleFind(input);
 
-                default:
-                    throw new AtlasException("No such command exists");
+            case "update":
+                return handleUpdate(input);
+
+
+            default:
+                throw new AtlasException("No such command exists");
             }
 
         } catch (AtlasException e) {
@@ -161,6 +165,46 @@ public class Atlas {
                 ui.showLine((i + 1) + "." + task);
             }
         }
+        return ui.getOutput();
+    }
+
+    private String handleUpdate(String input) throws AtlasException {
+        Object[] parsed = Parser.parseUpdate(input);
+        int index = (int) parsed[0];
+        String updatePart = (String) parsed[1];
+
+        validateIndex(index);
+
+        Task task = tasks.get(index);
+
+        if (updatePart.startsWith("/desc ")) {
+            String newDesc = updatePart.substring(6);
+            task.setTaskName(newDesc);
+        } else if (task instanceof Deadline && updatePart.startsWith("/by ")) {
+            LocalDate newDate = LocalDate.parse(updatePart.substring(4));
+            ((Deadline) task).setBy(newDate);
+        } else if (task instanceof Event) {
+            if (updatePart.startsWith("/from ")) {
+                String[] dates = updatePart.split(" ");
+                if (dates.length != 4 || !dates[2].equals("/to")) {
+                    throw new AtlasException("Usage: update INDEX /from DATE /to DATE");
+                }
+                LocalDate from = LocalDate.parse(dates[1]);
+                LocalDate to = LocalDate.parse(dates[3]);
+                ((Event) task).setFrom(from);
+                ((Event) task).setTo(to);
+            } else {
+                throw new AtlasException("Invalid update format for Event.");
+            }
+        } else {
+            throw new AtlasException("Invalid update format.");
+        }
+
+        Storage.save(tasks.toList());
+
+        ui.showLine("Updated task:");
+        ui.showLine("  " + task);
+
         return ui.getOutput();
     }
 
