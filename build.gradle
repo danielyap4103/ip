@@ -44,7 +44,7 @@ application {
 
 
 shadowJar {
-    archiveBaseName = 'duke'
+    archiveBaseName = 'atlas'
     archiveClassifier = null
     mergeServiceFiles()
 }
