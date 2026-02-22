@@ -1,4 +1,2 @@
-T | 0 | gone
-T | 0 | read clean code
-D | 0 | submit | 2026-04-01
-E | 0 | trip | 2026-03-15 | 2026-03-18
+T | 1 | submit IP
+E | 0 | recess week | 2026-02-23 | 2026-02-27

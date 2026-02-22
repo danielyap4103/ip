@@ -2,6 +2,8 @@ package atlas.parser;
 
 import atlas.AtlasException;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+
 
 /**
  * Parses user input into commands and arguments.
@@ -138,17 +140,33 @@ public class Parser {
         String[] parts = input.substring(9).split(" /by ");
         assert parts.length >= 2
                 : "Deadline command missing /by";
+
         if (parts.length < 2) {
             throw new AtlasException(
-                    "Deadline must have a /by date."
+                    "Deadline must have a /by date.\n"
+                            + "Format: deadline DESCRIPTION /by YYYY-MM-DD"
             );
         }
 
-        return new Object[] {
-                parts[0],
-                LocalDate.parse(parts[1])
-        };
+        String description = parts[0].trim();
+        String dateString = parts[1].trim();
+
+        if (description.isEmpty()) {
+            throw new AtlasException("Deadline description cannot be empty.");
+        }
+
+        try {
+            LocalDate by = LocalDate.parse(dateString);
+            return new Object[]{description, by};
+        } catch (DateTimeParseException e) {
+            throw new AtlasException(
+                    "Invalid date format.\n"
+                            + "Please use YYYY-MM-DD.\n"
+                            + "Example: deadline Submit report /by 2026-02-20"
+            );
+        }
     }
+
 
     /**
      * Parses an event command.
@@ -163,30 +181,70 @@ public class Parser {
         String[] parts = input.substring(6).split(" /from | /to ");
         assert parts.length >= 3
                 : "Event command missing /from or /to";
+
         if (parts.length < 3) {
             throw new AtlasException(
-                    "Event must have /from and /to."
+                    "Event must have /from and /to.\n"
+                            + "Format: event DESCRIPTION /from YYYY-MM-DD /to YYYY-MM-DD"
             );
         }
 
-        return new Object[] {
-                parts[0],
-                LocalDate.parse(parts[1]),
-                LocalDate.parse(parts[2])
-        };
-    }
+        String description = parts[0].trim();
+        String fromString = parts[1].trim();
+        String toString = parts[2].trim();
 
-    public static Object[] parseUpdate(String input) throws AtlasException {
-        String[] parts = input.split(" ", 3);
-        if (parts.length < 3) {
-            throw new AtlasException("Usage: update INDEX /desc NEW_TEXT");
+        if (description.isEmpty()) {
+            throw new AtlasException("Event description cannot be empty.");
         }
 
-        int index = Integer.parseInt(parts[1]) - 1;
-        String remainder = parts[2];
+        try {
+            LocalDate from = LocalDate.parse(fromString);
+            LocalDate to = LocalDate.parse(toString);
+
+            if (to.isBefore(from)) {
+                throw new AtlasException("Event end date cannot be before start date.");
+            }
+
+            return new Object[]{description, from, to};
+
+        } catch (DateTimeParseException e) {
+            throw new AtlasException(
+                    "Invalid date format.\n"
+                            + "Please use YYYY-MM-DD.\n"
+                            + "Example: event Meeting /from 2026-02-22 /to 2026-02-23"
+            );
+        }
+    }
+
+
+    public static Object[] parseUpdate(String input)
+            throws AtlasException {
+
+        String[] parts = input.split(" ", 3);
+
+        if (parts.length < 3) {
+            throw new AtlasException(
+                    "Usage: update INDEX NEW_DETAILS"
+            );
+        }
+
+        int index;
+
+        try {
+            index = Integer.parseInt(parts[1]) - 1;
+        } catch (NumberFormatException e) {
+            throw new AtlasException("Invalid task index.");
+        }
+
+        String remainder = parts[2].trim();
+
+        if (remainder.isEmpty()) {
+            throw new AtlasException("Updated content cannot be empty.");
+        }
 
         return new Object[]{index, remainder};
     }
+
 
     /**
      * Parses the keyword for find command.
