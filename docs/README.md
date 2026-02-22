@@ -1,13 +1,13 @@
-Atlas User Guide
+# Atlas User Guide
 
-📌 Introduction
+## 📌 Introduction
 
 Atlas is a lightweight task management chatbot with a JavaFX GUI.
 It helps you manage todos, deadlines, and events efficiently using simple text commands.
 
 Atlas automatically saves your tasks after every change, so you never need to manually save your work.
 
-🚀 Quick Start
+## 🚀 Quick Start
 
 Download the latest JAR file.
 
@@ -20,8 +20,8 @@ java -jar atlas.jar
 
 Start typing commands in the input box at the bottom of the window.
 
-🧭 Features
-1. Add a Todo
+## 🧭 Features
+### 1. Add a Todo
 
 Adds a simple task without a date.
 
@@ -34,7 +34,7 @@ Example:
 
 todo Submit tutorial
 
-2. Add a Deadline
+### 2. Add a Deadline
 
 Adds a task with a due date.
 
@@ -47,7 +47,7 @@ Example:
 
 deadline Submit assignment /by 2026-02-20
 
-3. Add an Event
+### 3. Add an Event
 
 Adds a task with a start and end date.
 
@@ -60,7 +60,7 @@ Example:
 
 event CS2103 Workshop /from 2026-02-15 /to 2026-02-16
 
-4. List Tasks
+### 4. List Tasks
 
 Displays all tasks currently stored.
 
@@ -68,7 +68,7 @@ Format:
 
 list
 
-5. Mark Task as Done
+### 5. Mark Task as Done
 
 Marks a task as completed.
 
@@ -81,7 +81,7 @@ Example:
 
 mark 1
 
-6. Unmark Task
+### 6. Unmark Task
 
 Marks a completed task as not done.
 
@@ -89,7 +89,7 @@ Format:
 
 unmark INDEX
 
-7. Delete Task
+### 7. Delete Task
 
 Deletes a task from the list.
 
@@ -97,7 +97,7 @@ Format:
 
 delete INDEX
 
-8. Find Tasks
+### 8. Find Tasks
 
 Finds tasks containing a keyword.
 
@@ -110,7 +110,7 @@ Example:
 
 find tutorial
 
-9. Update Task (Extension Feature)
+### 9. Update Task (Extension Feature)
 
 Allows editing an existing task without deleting it first.
 
@@ -138,7 +138,7 @@ Example:
 
 update 3 event Team meeting /from 2026-02-22 /to 2026-02-22
 
-10. Exit Program
+### 10. Exit Program
     bye
 
 
