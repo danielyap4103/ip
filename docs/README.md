@@ -15,7 +15,7 @@ Open a terminal in the folder containing the JAR.
 
 Run:
 
-java -jar atlas.jar
+    java -jar atlas.jar
 
 
 Start typing commands in the input box at the bottom of the window.
@@ -27,12 +27,12 @@ Adds a simple task without a date.
 
 Format:
 
-todo DESCRIPTION
+    todo DESCRIPTION
 
 
 Example:
 
-todo Submit tutorial
+    todo Submit tutorial
 
 ### 2. Add a Deadline
 
@@ -40,12 +40,12 @@ Adds a task with a due date.
 
 Format:
 
-deadline DESCRIPTION /by YYYY-MM-DD
+    deadline DESCRIPTION /by YYYY-MM-DD
 
 
 Example:
 
-deadline Submit assignment /by 2026-02-20
+    deadline Submit assignment /by 2026-02-20
 
 ### 3. Add an Event
 
@@ -53,12 +53,12 @@ Adds a task with a start and end date.
 
 Format:
 
-event DESCRIPTION /from YYYY-MM-DD /to YYYY-MM-DD
+    event DESCRIPTION /from YYYY-MM-DD /to YYYY-MM-DD
 
 
 Example:
 
-event CS2103 Workshop /from 2026-02-15 /to 2026-02-16
+    event CS2103 Workshop /from 2026-02-15 /to 2026-02-16
 
 ### 4. List Tasks
 
@@ -66,7 +66,7 @@ Displays all tasks currently stored.
 
 Format:
 
-list
+    list
 
 ### 5. Mark Task as Done
 
@@ -74,12 +74,12 @@ Marks a task as completed.
 
 Format:
 
-mark INDEX
+    mark INDEX
 
 
 Example:
 
-mark 1
+    mark 1
 
 ### 6. Unmark Task
 
@@ -87,7 +87,11 @@ Marks a completed task as not done.
 
 Format:
 
-unmark INDEX
+    unmark INDEX
+
+Example:
+
+    unmark 1
 
 ### 7. Delete Task
 
@@ -95,7 +99,11 @@ Deletes a task from the list.
 
 Format:
 
-delete INDEX
+    delete INDEX
+
+Example:
+
+    delete 1
 
 ### 8. Find Tasks
 
@@ -103,40 +111,43 @@ Finds tasks containing a keyword.
 
 Format:
 
-find KEYWORD
+    find KEYWORD
 
 
 Example:
 
-find tutorial
+    find tutorial
 
 ### 9. Update Task (Extension Feature)
 
 Allows editing an existing task without deleting it first.
 
-Update Todo
-update INDEX todo NEW_DESCRIPTION
+To Update a task to become a Todo
+
+    update INDEX todo NEW_DESCRIPTION
 
 
 Example:
 
-update 1 todo Revise lecture notes
+    update 1 todo Revise lecture notes
 
-Update Deadline
-update INDEX deadline NEW_DESCRIPTION /by YYYY-MM-DD
+To Update a task to become a Deadline
 
-
-Example:
-
-update 2 deadline Submit report /by 2026-03-01
-
-Update Event
-update INDEX event NEW_DESCRIPTION /from YYYY-MM-DD /to YYYY-MM-DD
+    update INDEX deadline NEW_DESCRIPTION /by YYYY-MM-DD
 
 
 Example:
 
-update 3 event Team meeting /from 2026-02-22 /to 2026-02-22
+    update 2 deadline Submit report /by 2026-03-01
+
+To Update a task to become an Event
+
+    update INDEX event NEW_DESCRIPTION /from YYYY-MM-DD /to YYYY-MM-DD
+
+
+Example:
+
+    update 3 event Team meeting /from 2026-02-22 /to 2026-02-22
 
 ### 10. Exit Program
     bye
