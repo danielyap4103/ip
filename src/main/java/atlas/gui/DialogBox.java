@@ -66,3 +66,4 @@ public class DialogBox {
         return load(text, atlasImg, false);
     }
 }
+
