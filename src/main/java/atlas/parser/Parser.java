@@ -134,36 +134,32 @@ public class Parser {
      * @return Parsed description and date
      * @throws AtlasException If format is invalid
      */
-    public static Object[] parseDeadline(String input)
-            throws AtlasException {
+    public static Object[] parseDeadline(String input) throws AtlasException {
 
-        String[] parts = input.substring(9).split(" /by ");
-        assert parts.length >= 2
-                : "Deadline command missing /by";
-
-        if (parts.length < 2) {
-            throw new AtlasException(
-                    "Deadline must have a /by date.\n"
-                            + "Format: deadline DESCRIPTION /by YYYY-MM-DD"
-            );
+        if (input.length() <= 9) {
+            throw new AtlasException("The description of a deadline cannot be empty.");
         }
+
+        String body = input.substring(9).trim();
+
+        if (!body.contains(" /by ")) {
+            throw new AtlasException("Deadline must be in format: deadline DESCRIPTION /by YYYY-MM-DD");
+        }
+
+        String[] parts = body.split(" /by ", 2);
 
         String description = parts[0].trim();
         String dateString = parts[1].trim();
 
         if (description.isEmpty()) {
-            throw new AtlasException("Deadline description cannot be empty.");
+            throw new AtlasException("The description of a deadline cannot be empty.");
         }
 
         try {
-            LocalDate by = LocalDate.parse(dateString);
-            return new Object[]{description, by};
-        } catch (DateTimeParseException e) {
-            throw new AtlasException(
-                    "Invalid date format.\n"
-                            + "Please use YYYY-MM-DD.\n"
-                            + "Example: deadline Submit report /by 2026-02-20"
-            );
+            LocalDate date = LocalDate.parse(dateString);
+            return new Object[]{description, date};
+        } catch (Exception e) {
+            throw new AtlasException("Date must be in format YYYY-MM-DD.");
         }
     }
 
@@ -175,44 +171,33 @@ public class Parser {
      * @return Parsed description, start date, and end date
      * @throws AtlasException If format is invalid
      */
-    public static Object[] parseEvent(String input)
-            throws AtlasException {
+    public static Object[] parseEvent(String input) throws AtlasException {
 
-        String[] parts = input.substring(6).split(" /from | /to ");
-        assert parts.length >= 3
-                : "Event command missing /from or /to";
-
-        if (parts.length < 3) {
-            throw new AtlasException(
-                    "Event must have /from and /to.\n"
-                            + "Format: event DESCRIPTION /from YYYY-MM-DD /to YYYY-MM-DD"
-            );
+        if (input.length() <= 6) {
+            throw new AtlasException("The description of an event cannot be empty.");
         }
 
-        String description = parts[0].trim();
-        String fromString = parts[1].trim();
-        String toString = parts[2].trim();
+        String body = input.substring(6).trim();
 
-        if (description.isEmpty()) {
-            throw new AtlasException("Event description cannot be empty.");
+        if (!body.contains(" /from ") || !body.contains(" /to ")) {
+            throw new AtlasException(
+                    "Event must be in format: event DESCRIPTION /from YYYY-MM-DD /to YYYY-MM-DD"
+            );
         }
 
         try {
-            LocalDate from = LocalDate.parse(fromString);
-            LocalDate to = LocalDate.parse(toString);
+            String[] firstSplit = body.split(" /from ", 2);
+            String description = firstSplit[0].trim();
 
-            if (to.isBefore(from)) {
-                throw new AtlasException("Event end date cannot be before start date.");
-            }
+            String[] secondSplit = firstSplit[1].split(" /to ", 2);
+
+            LocalDate from = LocalDate.parse(secondSplit[0].trim());
+            LocalDate to = LocalDate.parse(secondSplit[1].trim());
 
             return new Object[]{description, from, to};
 
-        } catch (DateTimeParseException e) {
-            throw new AtlasException(
-                    "Invalid date format.\n"
-                            + "Please use YYYY-MM-DD.\n"
-                            + "Example: event Meeting /from 2026-02-22 /to 2026-02-23"
-            );
+        } catch (Exception e) {
+            throw new AtlasException("Dates must be in format YYYY-MM-DD.");
         }
     }
 
