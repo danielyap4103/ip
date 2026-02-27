@@ -9,30 +9,24 @@ repositories {
 }
 
 def javaFxVersion = '17.0.7'
-def os = org.gradle.internal.os.OperatingSystem.current()
 
 dependencies {
 
-    if (os.isWindows()) {
-        implementation "org.openjfx:javafx-base:$javaFxVersion:win"
-        implementation "org.openjfx:javafx-controls:$javaFxVersion:win"
-        implementation "org.openjfx:javafx-fxml:$javaFxVersion:win"
-        implementation "org.openjfx:javafx-graphics:$javaFxVersion:win"
-    }
+    implementation group: 'org.openjfx', name: 'javafx-base', version: javaFxVersion, classifier: 'win'
+    implementation group: 'org.openjfx', name: 'javafx-base', version: javaFxVersion, classifier: 'mac'
+    implementation group: 'org.openjfx', name: 'javafx-base', version: javaFxVersion, classifier: 'linux'
 
-    if (os.isMacOsX()) {
-        implementation "org.openjfx:javafx-base:$javaFxVersion:mac"
-        implementation "org.openjfx:javafx-controls:$javaFxVersion:mac"
-        implementation "org.openjfx:javafx-fxml:$javaFxVersion:mac"
-        implementation "org.openjfx:javafx-graphics:$javaFxVersion:mac"
-    }
+    implementation group: 'org.openjfx', name: 'javafx-controls', version: javaFxVersion, classifier: 'win'
+    implementation group: 'org.openjfx', name: 'javafx-controls', version: javaFxVersion, classifier: 'mac'
+    implementation group: 'org.openjfx', name: 'javafx-controls', version: javaFxVersion, classifier: 'linux'
 
-    if (os.isLinux()) {
-        implementation "org.openjfx:javafx-base:$javaFxVersion:linux"
-        implementation "org.openjfx:javafx-controls:$javaFxVersion:linux"
-        implementation "org.openjfx:javafx-fxml:$javaFxVersion:linux"
-        implementation "org.openjfx:javafx-graphics:$javaFxVersion:linux"
-    }
+    implementation group: 'org.openjfx', name: 'javafx-fxml', version: javaFxVersion, classifier: 'win'
+    implementation group: 'org.openjfx', name: 'javafx-fxml', version: javaFxVersion, classifier: 'mac'
+    implementation group: 'org.openjfx', name: 'javafx-fxml', version: javaFxVersion, classifier: 'linux'
+
+    implementation group: 'org.openjfx', name: 'javafx-graphics', version: javaFxVersion, classifier: 'win'
+    implementation group: 'org.openjfx', name: 'javafx-graphics', version: javaFxVersion, classifier: 'mac'
+    implementation group: 'org.openjfx', name: 'javafx-graphics', version: javaFxVersion, classifier: 'linux'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
@@ -42,10 +36,10 @@ application {
     mainClass = 'atlas.Launcher'
 }
 
-
 shadowJar {
-    archiveBaseName = 'atlas'
-    archiveClassifier = null
+    archiveBaseName.set('atlas')
+    archiveClassifier.set(null)
+    archiveVersion.set('')
     mergeServiceFiles()
 }
 
